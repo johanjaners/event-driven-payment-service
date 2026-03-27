@@ -1,3 +1,4 @@
+using PaymentService.Domain.Enums;
 namespace PaymentService.Domain.Entities;
 
 public class Invoice

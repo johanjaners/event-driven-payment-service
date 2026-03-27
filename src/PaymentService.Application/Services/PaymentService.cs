@@ -19,13 +19,15 @@ public class PaymentService : IPaymentService
     }
 
     public async Task HandleBookingCreatedAsync(
-        BookingCreatedEvent message,
-        CancellationToken cancellationToken = default)
+    BookingCreatedEvent message,
+    CancellationToken cancellationToken = default)
     {
         var invoice = new Invoice
         {
             Id = Guid.NewGuid(),
             BookingId = message.BookingId,
+            CustomerName = message.CustomerName,
+            CustomerEmail = message.CustomerEmail,
             Status = InvoiceStatus.Pending,
             TotalAmount = 0,
             CreatedAt = DateTime.UtcNow,

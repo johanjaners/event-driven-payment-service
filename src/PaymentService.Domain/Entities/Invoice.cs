@@ -21,15 +21,3 @@ public class Invoice
 
     public DateTime UpdatedAt { get; set; }
 }
-    public Guid Id { get; set; }
-    public Guid BookingId { get; set; }
-
-    public InvoiceStatus Status { get; set; } = InvoiceStatus.Pending;
-
-    public decimal TotalAmount { get; set; }
-
-    public List<InvoiceLine> Lines { get; set; } = new();
-
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-}

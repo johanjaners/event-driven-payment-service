@@ -2,10 +2,10 @@ namespace PaymentService.Domain.Entities;
 
 public class InvoiceLine
 {
-    int Id;
-    int InvoiceId;
-    string Name;
-    decimal UnitPrice;
-    decimal Amount;
-    string ServiceType;
+    public Guid Id { get; set; }
+    public Guid InvoiceId { get; set; }
+    public string Name { get; set; }
+    public decimal UnitPrice { get; set; }
+    public decimal Amount { get; set; }
+    public string ServiceType { get; set; }
 };

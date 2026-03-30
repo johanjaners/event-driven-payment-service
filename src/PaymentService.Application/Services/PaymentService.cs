@@ -114,4 +114,34 @@ public class PaymentService : IPaymentService
 
         await _eventProducer.PublishPaymentStatusUpdatedAsync(paymentEvent, cancellationToken);
     }
+
+    public async Task MarkAsPaidAsync(
+    Guid invoiceId,
+    CancellationToken cancellationToken = default)
+    {
+        var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
+
+        if (invoice == null)
+            return;
+
+        invoice.Status = InvoiceStatus.Paid;
+        invoice.UpdatedAt = DateTime.UtcNow;
+
+        await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
+
+        var paymentEvent = new PaymentStatusUpdatedEvent
+        {
+            EventId = Guid.NewGuid(),
+            Timestamp = DateTime.UtcNow,
+            Data = new PaymentStatusUpdatedData
+            {
+                BookingId = invoice.BookingId,
+                InvoiceId = invoice.Id,
+                Amount = invoice.TotalAmount,
+                Status = invoice.Status.ToString()
+            }
+        };
+
+        await _eventProducer.PublishPaymentStatusUpdatedAsync(paymentEvent, cancellationToken);
+    }
 }

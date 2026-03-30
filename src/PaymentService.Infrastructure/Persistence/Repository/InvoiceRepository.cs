@@ -21,6 +21,12 @@ public class InvoiceRepository(PaymentDbContext db)
         return await db.Invoices
             .FirstOrDefaultAsync(x => x.Id == invoiceId, ct);
     }
-    // Task AddAsync(Invoice invoice, CancellationToken cancellationToken = default);
+    public async Task<Invoice> AddAsync(Invoice invoice, CancellationToken ct = default)
+    {
+        await db.Invoices.AddAsync(invoice, ct);
+        await db.SaveChangesAsync(ct);
+
+        return invoice;
+    }
     // Task UpdateAsync(Invoice invoice, CancellationToken cancellationToken = default);
 }

@@ -28,5 +28,9 @@ public class InvoiceRepository(PaymentDbContext db)
 
         return invoice;
     }
-    // Task UpdateAsync(Invoice invoice, CancellationToken cancellationToken = default);
+    public async Task UpdateAsync(Invoice invoice, CancellationToken ct = default)
+    {
+        db.Invoices.Update(invoice);
+        await db.SaveChangesAsync(ct);
+    }
 }

@@ -20,6 +20,7 @@ public class InvoiceRepository(PaymentDbContext db) : IInvoiceRepository
         CancellationToken ct = default)
     {
         return await db.Invoices
+            .Include(x => x.Lines)
             .FirstOrDefaultAsync(x => x.Id == invoiceId, ct);
     }
     public async Task<Invoice> AddAsync(Invoice invoice, CancellationToken ct = default)

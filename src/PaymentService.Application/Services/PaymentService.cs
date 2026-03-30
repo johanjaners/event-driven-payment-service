@@ -22,6 +22,12 @@ public class PaymentService : IPaymentService
     BookingCreatedEvent message,
     CancellationToken cancellationToken = default)
     {
+        var existingInvoice = await _invoiceRepository
+            .GetByBookingIdAsync(message.BookingId, cancellationToken);
+
+        if (existingInvoice is not null)
+            return;
+
         var invoice = new Invoice
         {
             Id = Guid.NewGuid(),

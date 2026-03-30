@@ -7,14 +7,20 @@ public class InvoiceRepository(PaymentDbContext db)
 {
     public async Task<Invoice?> GetByBookingIdAsync(
         Guid bookingId,
-        CancellationToken cancellationToken = default)
+        CancellationToken ct = default)
     {
         return await db.Invoices
             .Include(x => x.Lines)
-            .FirstOrDefaultAsync(x => x.BookingId == bookingId, cancellationToken);
+            .FirstOrDefaultAsync(x => x.BookingId == bookingId, ct);
 
     }
-    // public Task<Invoice?> GetByIdAsync(Guid invoiceId, CancellationToken cancellationToken = default)
+    public async Task<Invoice?> GetByIdAsync(
+        Guid invoiceId,
+        CancellationToken ct = default)
+    {
+        return await db.Invoices
+            .FirstOrDefaultAsync(x => x.Id == invoiceId, ct);
+    }
     // Task AddAsync(Invoice invoice, CancellationToken cancellationToken = default);
     // Task UpdateAsync(Invoice invoice, CancellationToken cancellationToken = default);
 }

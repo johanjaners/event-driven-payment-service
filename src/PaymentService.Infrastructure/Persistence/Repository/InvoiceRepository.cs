@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using PaymentService.Application.Interfaces;
 using PaymentService.Domain.Entities;
 
 namespace PaymentService.Infrastructure.Persistence;
 
-public class InvoiceRepository(PaymentDbContext db)
+public class InvoiceRepository(PaymentDbContext db) : IInvoiceRepository
 {
     public async Task<Invoice?> GetByBookingIdAsync(
         Guid bookingId,

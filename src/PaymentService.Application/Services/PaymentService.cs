@@ -105,20 +105,7 @@ public class PaymentService : IPaymentService
 
         await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
 
-        var paymentEvent = new PaymentStatusUpdatedEvent
-        {
-            EventId = Guid.NewGuid(),
-            Timestamp = DateTime.UtcNow,
-            Data = new PaymentStatusUpdatedData
-            {
-                BookingId = invoice.BookingId,
-                InvoiceId = invoice.Id,
-                Amount = invoice.TotalAmount,
-                Status = invoice.Status.ToString()
-            }
-        };
-
-        await _eventProducer.PublishPaymentStatusUpdatedAsync(paymentEvent, cancellationToken);
+        await PublishPaymentStatusUpdatedAsync(invoice, cancellationToken);
     }
 
     public async Task MarkAsPaidAsync(
@@ -135,20 +122,7 @@ public class PaymentService : IPaymentService
 
         await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
 
-        var paymentEvent = new PaymentStatusUpdatedEvent
-        {
-            EventId = Guid.NewGuid(),
-            Timestamp = DateTime.UtcNow,
-            Data = new PaymentStatusUpdatedData
-            {
-                BookingId = invoice.BookingId,
-                InvoiceId = invoice.Id,
-                Amount = invoice.TotalAmount,
-                Status = invoice.Status.ToString()
-            }
-        };
-
-        await _eventProducer.PublishPaymentStatusUpdatedAsync(paymentEvent, cancellationToken);
+        await PublishPaymentStatusUpdatedAsync(invoice, cancellationToken);
     }
 
     public async Task MarkAsFailedAsync(
@@ -165,6 +139,13 @@ public class PaymentService : IPaymentService
 
         await _invoiceRepository.UpdateAsync(invoice, cancellationToken);
 
+        await PublishPaymentStatusUpdatedAsync(invoice, cancellationToken);
+    }
+
+    private async Task PublishPaymentStatusUpdatedAsync(
+    Invoice invoice,
+    CancellationToken cancellationToken = default)
+    {
         var paymentEvent = new PaymentStatusUpdatedEvent
         {
             EventId = Guid.NewGuid(),

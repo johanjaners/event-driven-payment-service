@@ -4,9 +4,9 @@
 ## Get latest from `dotnet new gitignore`
 
 # Certificates
-/ca.pem
-/service.cert
-/service.key
+*.pem
+*.cert
+*.key
 
 # dotenv files
 .env

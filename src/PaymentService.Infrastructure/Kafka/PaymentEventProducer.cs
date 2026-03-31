@@ -1,5 +1,6 @@
 using System.Runtime;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
 using PaymentService.Application.Events;
@@ -29,7 +30,7 @@ public class PaymentEventProducer : IPaymentEventProducer
 
     }
 
-    public Task PublishPaymentStatusUpdatedAsync(PaymentStatusUpdatedEvent paymentEvent, CancellationToken cancellationToken = default)
+    public async Task PublishPaymentStatusUpdatedAsync(PaymentStatusUpdatedEvent paymentEvent, CancellationToken cancellationToken = default)
     {
         var json = JsonSerializer.Serialize(paymentEvent);
         var kafkaMessage = new Message<string, string>
@@ -37,7 +38,7 @@ public class PaymentEventProducer : IPaymentEventProducer
             Key = paymentEvent.EventId.ToString(),
             Value = json
         };
-        return _producer.ProduceAsync("payments", kafkaMessage);
+        await _producer.ProduceAsync("payments", kafkaMessage);
     }
 }
 

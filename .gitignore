@@ -3,10 +3,10 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
-# Certificates
-/ca.pem
-/service.cert
-/service.key
+# Certificates (Ignorerar dessa filer i ALLA mappar)
+*.pem
+*.cert
+*.key
 
 # dotenv files
 .env

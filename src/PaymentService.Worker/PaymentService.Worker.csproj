@@ -11,4 +11,8 @@
     <PackageReference Include="Confluent.Kafka" Version="2.13.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-rc.2.25502.107" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PaymentService.Application\PaymentService.Application.csproj" />
+  </ItemGroup>
 </Project>

@@ -115,7 +115,7 @@ public class PaymentService : IPaymentService
         var invoice = await _invoiceRepository.GetByIdAsync(invoiceId, cancellationToken);
 
         if (invoice == null)
-            return;
+            throw new KeyNotFoundException("Invoice not Found");
 
         invoice.Status = InvoiceStatus.Paid;
         invoice.UpdatedAt = DateTime.UtcNow;

@@ -30,7 +30,6 @@ public class EventDispatcher(IPaymentService paymentService) : IEventDispatcher
                 Console.WriteLine("Calling booking created service");
                 Console.WriteLine(doc.RootElement.GetRawText());
                 var bookingEvent = JsonSerializer.Deserialize<BookingCreatedEvent>(doc, options);
-                Console.WriteLine(bookingEvent.Customer.Name);
                 await paymentService.HandleBookingCreatedAsync(bookingEvent);
             }
             else if (topic == "workshop")
@@ -40,7 +39,6 @@ public class EventDispatcher(IPaymentService paymentService) : IEventDispatcher
                 {
                     Console.WriteLine(doc.RootElement.GetRawText());
                     var workshopUpdateEvent = JsonSerializer.Deserialize<WorkshopUpdatedEvent>(doc, options);
-                    Console.WriteLine(workshopUpdateEvent.ServiceType);
                     await paymentService.HandleWorkshopUpdatedAsync(workshopUpdateEvent);
                 }
                 else if (type == "completed")

@@ -11,18 +11,6 @@ using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-// var consumerConfig = new ConsumerConfig
-// {
-//     BootstrapServers = "kafka-3dd27228-kafkapgp.g.aivencloud.com:14781",
-//     GroupId = "payment5",
-//     AutoOffsetReset = AutoOffsetReset.Earliest,
-//     EnableAutoCommit = true,
-//     SecurityProtocol = SecurityProtocol.Ssl,
-//     SslCaLocation = "ca.pem",
-//     SslCertificateLocation = "service.cert",
-//     SslKeyLocation = "service.key"
-// };
-
 var kafkaSection = builder.Configuration.GetSection("Kafka");
 
 var consumerConfig = kafkaSection.Get<ConsumerConfig>();

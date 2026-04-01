@@ -30,12 +30,16 @@ public class InvoiceRepository(PaymentDbContext db) : IInvoiceRepository
     }
     public async Task UpdateAsync(Invoice invoice, CancellationToken ct = default)
     {
-        db.Invoices.Update(invoice);
         await db.SaveChangesAsync(ct);
     }
 
     public async Task<IEnumerable<Invoice>> GetAllAsync(CancellationToken ct)
     {
         return await db.Invoices.Include(x => x.Lines).ToListAsync(ct);
+    }
+
+    public void AddInvoiceLine(InvoiceLine line)
+    {
+        db.InvoiceLines.Add(line);
     }
 }

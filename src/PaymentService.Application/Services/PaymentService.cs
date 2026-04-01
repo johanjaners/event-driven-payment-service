@@ -51,7 +51,16 @@ public class PaymentService : IPaymentService
             .GetByBookingIdAsync(message.BookingId, cancellationToken);
 
         if (invoice == null)
+        {
+            Console.WriteLine($"No invoice found for workshop update. BookingId: {message.BookingId}");
             return;
+        }
+
+        if (message.Parts == null || message.Parts.Count == 0)
+        {
+            Console.WriteLine("No parts in workshop update");
+            return;
+        }
 
         var existingLinesByName = invoice.Lines
             .Where(x => x.ServiceType == message.ServiceType)
@@ -72,6 +81,7 @@ public class PaymentService : IPaymentService
                 };
 
                 invoice.Lines.Add(newLine);
+                _invoiceRepository.AddInvoiceLine(newLine);
                 existingLinesByName[part.Name] = newLine;
             }
             else

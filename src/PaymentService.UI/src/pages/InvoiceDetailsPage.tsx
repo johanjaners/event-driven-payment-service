@@ -31,9 +31,7 @@ export default function InvoiceDetailsPage() {
       onSuccess: () => {
         toast.success("Payment successful!");
 
-        setTimeout(() => {
-          navigate("/");
-        }, 800);
+        setTimeout(() => {}, 800);
       },
       onError: () => {
         toast.error("Payment failed. Please try again.");

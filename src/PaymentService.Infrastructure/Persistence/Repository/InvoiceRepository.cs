@@ -35,6 +35,7 @@ public class InvoiceRepository(PaymentDbContext db) : IInvoiceRepository
 
     public async Task<IEnumerable<Invoice>> GetAllAsync(CancellationToken ct)
     {
+
         return await db.Invoices.Include(x => x.Lines).ToListAsync(ct);
     }
 

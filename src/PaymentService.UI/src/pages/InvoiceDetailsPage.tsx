@@ -27,7 +27,10 @@ export default function InvoiceDetailsPage() {
   const handlePay = () => {
     if (!id) return;
     payMutation.mutate(id, {
-      onSuccess: () => toast.success("Payment successful!"),
+      onSuccess: () => {
+        toast.success("Payment successful!");
+        navigate("/");
+      },
       onError: () => toast.error("Payment failed. Please try again."),
     });
   };
@@ -69,14 +72,20 @@ export default function InvoiceDetailsPage() {
               <Field label="Customer" value={invoice.customerName} />
               <Field label="Email" value={invoice.customerEmail} />
               <Field label="Created" value={formatDate(invoice.createdAt)} />
-              <Field label="Last Updated" value={formatDate(invoice.updatedAt)} />
+              <Field
+                label="Last Updated"
+                value={formatDate(invoice.updatedAt)}
+              />
               <Field label="Status" value={invoice.status} />
             </div>
           </div>
 
           <div>
             <h2 className="text-sm font-bold mb-2">Line Items</h2>
-            <InvoiceLineTable lines={invoice.lines} total={invoice.totalAmount} />
+            <InvoiceLineTable
+              lines={invoice.lines}
+              total={invoice.totalAmount}
+            />
           </div>
 
           <div className="flex justify-end pt-2">
@@ -88,8 +97,8 @@ export default function InvoiceDetailsPage() {
               {payMutation.isPending
                 ? "Processing…"
                 : invoice.status === "Paid"
-                ? "Paid"
-                : "Pay Now"}
+                  ? "Paid"
+                  : "Pay Now"}
             </Button>
           </div>
         </div>

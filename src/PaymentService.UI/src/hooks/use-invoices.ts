@@ -2,29 +2,29 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Invoice } from "@/lib/types";
 import { mockInvoices } from "@/lib/mock-data";
 
+const API_BASE_URL = "http://localhost:5093/api/payment";
 // Simulated API calls
-const fetchInvoices = (): Promise<Invoice[]> =>
-  new Promise((resolve) => setTimeout(() => resolve([...mockInvoices]), 600));
 
-const fetchInvoice = (id: string): Promise<Invoice> =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const invoice = mockInvoices.find((inv) => inv.id === id);
-      if (invoice) resolve({ ...invoice });
-      else reject(new Error("Invoice not found"));
-    }, 400);
+const fetchInvoices = async (): Promise<Invoice[]> => {
+  const res = await fetch(`${API_BASE_URL}`);
+  if (!res.ok) throw new Error("Failed to fetch invoices");
+  return res.json();
+};
+
+const fetchInvoice = async (id: string): Promise<Invoice> => {
+  const res = await fetch(`${API_BASE_URL}/${id}`);
+  if (!res.ok) throw new Error("Invoice not found");
+  return res.json();
+};
+
+const payInvoice = async (id: string): Promise<string> => {
+  const res = await fetch(`${API_BASE_URL}/${id}/pay`, {
+    method: "POST",
   });
 
-const payInvoice = (id: string): Promise<Invoice> =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const invoice = mockInvoices.find((inv) => inv.id === id);
-      if (!invoice) return reject(new Error("Invoice not found"));
-      invoice.status = "Paid";
-      invoice.updatedAt = new Date().toISOString();
-      resolve({ ...invoice });
-    }, 1200);
-  });
+  if (!res.ok) throw new Error("Payment failed");
+  return res.json();
+};
 
 export function useInvoices() {
   return useQuery({

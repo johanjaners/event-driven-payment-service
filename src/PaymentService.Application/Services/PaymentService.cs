@@ -44,7 +44,7 @@ public class PaymentService : IPaymentService
     }
 
     public async Task HandleWorkshopUpdatedAsync(
-        WorkshopUpdatedEvent message,
+        WorkshopInvoiceUpdatedEvent message,
         CancellationToken cancellationToken = default)
     {
         var invoice = await _invoiceRepository
@@ -56,39 +56,38 @@ public class PaymentService : IPaymentService
             return;
         }
 
-        if (message.Parts == null || message.Parts.Count == 0)
+        var productName = message.Product?.Name;
+        var unitPrice = message.Product?.Price ?? 0m;
+        var quantity = message.Quantity;
+
+        if (productName == null || quantity == 0)
         {
-            Console.WriteLine("No parts in workshop update");
+            Console.WriteLine("No product name in workshop invoice update");
             return;
         }
 
-        var existingLinesByName = invoice.Lines
-            .Where(x => x.ServiceType == message.ServiceType)
-            .ToDictionary(x => x.Name, x => x);
+        var existingLine = invoice.Lines
+            .FirstOrDefault(x => x.Name == message.Product.Name);
 
-        foreach (var part in message.Parts)
+        if (existingLine == null)
         {
-            if (!existingLinesByName.TryGetValue(part.Name, out var existingLine))
+            var newLine = new InvoiceLine
             {
-                var newLine = new InvoiceLine
-                {
-                    Id = Guid.NewGuid(),
-                    InvoiceId = invoice.Id,
-                    Name = part.Name,
-                    UnitPrice = part.Price,
-                    Amount = part.Amount,
-                    ServiceType = message.ServiceType
-                };
+                Id = Guid.NewGuid(),
+                InvoiceId = invoice.Id,
+                Name = productName,
+                UnitPrice = unitPrice,
+                Amount = quantity,
+                ServiceType = string.Empty
+            };
 
-                invoice.Lines.Add(newLine);
-                _invoiceRepository.AddInvoiceLine(newLine);
-                existingLinesByName[part.Name] = newLine;
-            }
-            else
-            {
-                existingLine.UnitPrice = part.Price;
-                existingLine.Amount = part.Amount;
-            }
+            invoice.Lines.Add(newLine);
+            _invoiceRepository.AddInvoiceLine(newLine);
+        }
+        else
+        {
+            existingLine.UnitPrice = unitPrice;
+            existingLine.Amount = quantity;
         }
 
         invoice.TotalAmount = invoice.Lines.Sum(x => x.UnitPrice * x.Amount);

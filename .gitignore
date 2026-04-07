@@ -4,9 +4,9 @@
 ## Get latest from `dotnet new gitignore`
 
 # Certificates
-/ca.pem
-/service.cert
-/service.key
+*.pem
+*.cert
+*.key
 
 # dotenv files
 .env
@@ -487,3 +487,18 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+certs/
+
+# Node / Frontend
+node_modules/
+.vite/
+dist/
+dist-ssr/
+*.local
+
+# Playwright / Testing
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/

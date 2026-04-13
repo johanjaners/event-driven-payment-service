@@ -54,6 +54,12 @@ flowchart TD
     K --> I
 ```
 
+## Architecture
+
+The service follows a clean architecture approach with separated API and worker entry points.  
+
+<img src="./docs/payment-service-clean-architecture.png" width="800" />
+
 <h2>Demo</h2>
 
 <h3>Invoice Dashboard</h3>

@@ -108,4 +108,7 @@ Allowed status values:
 * contributed to event consumption flow
 * database persistence debugging
 * cross team event contract alignment
-* integration testing with Kafka and Swagger
+* integration testing with Kafka and Swagger  
+
+## Context
+Built during the SALT .NET postgraduate program as part of a team sprint project.

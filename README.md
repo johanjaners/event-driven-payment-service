@@ -100,7 +100,7 @@ Allowed status values:
 * Clean Architecture
 * Background Worker
 
-## My Contributions
+## My Contributions  
 
 * designed the initial service architecture and aligned the final solution with team input
 * implemented core payment and invoice business logic flow
@@ -111,4 +111,4 @@ Allowed status values:
 * integration testing with Kafka and Swagger  
 
 ## Context
-Built during the SALT .NET postgraduate program as part of a team sprint project.
+Built during the SALT .NET postgraduate program as part of a 9 developer sprint, with separate ownership across platform services.

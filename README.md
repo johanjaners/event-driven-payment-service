@@ -54,6 +54,14 @@ flowchart TD
     K --> I
 ```
 
+<h2>Demo</h2>
+
+<h3>Invoice Dashboard</h3>
+<img src="./docs/payment-dashboard.png" width="800" />
+
+<h3>Invoice Details</h3>
+<img src="./docs/payment-details.png" width="700" />
+
 ## Event Example
 
 ```json

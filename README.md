@@ -58,7 +58,7 @@ flowchart TD
 
 The service follows a clean architecture approach with separated API and worker entry points.  
 
-<img src="./docs/payment-service-clean-architecture.png" width="800" />
+<img src="./docs/payment-service-clean-architecture.png" width="700" />
 
 <h2>Demo</h2>
 
